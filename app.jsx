@@ -140,6 +140,12 @@ const icons = {
   send: ['M22 2L11 13', 'M22 2l-7 20-4-9-9-4 20-7z'],
   link: ['M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71', 'M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71'],
   externalLink: ['M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6', 'M15 3h6v6', 'M10 14L21 3'],
+  dumbbell: ['M6.5 6.5l11 11', 'M21 3l-6.5 6.5', 'M3 21l6.5-6.5', 'M18 3l3 3', 'M3 18l3 3', { tag: 'rect', x: 2, y: 14, width: 4, height: 6, rx: 1, transform: 'rotate(-45 4 17)' }, { tag: 'rect', x: 14, y: 2, width: 4, height: 6, rx: 1, transform: 'rotate(-45 16 5)' }],
+  utensils: ['M3 2l3 18h2L11 2', 'M7 2v8c0 2-2 4-4 4', 'M11 2v8c0 2 2 4 4 4', 'M17 2v20', 'M21 12c0-5-4-10-4-10v10'],
+  refresh: ['M1 4v6h6', 'M23 20v-6h-6', 'M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15'],
+  play: ['M5 3l14 9-14 9V3z'],
+  swap: ['M16 3l4 4-4 4', 'M20 7H4', 'M8 21l-4-4 4-4', 'M4 17h16'],
+  leaf: ['M17 8C8 10 5.9 16.17 3.82 21.34', 'M17 8A5 5 0 0121 12.3', 'M17 8c-4 0-8.14 5.7-11 11', 'M11 14c2-2 4.5-3.5 6-4'],
 };
 
 function Icon2({ name, size = 20, style = {} }) {
@@ -191,6 +197,76 @@ const GOALS = [
 const MEAL_TYPES = ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'];
 const DAYS = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'];
 const DAYS_SHORT = ['Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Nd'];
+
+// ========================================================================
+// EXERCISE DATABASE — built-in exercises with muscle groups & YT links
+// ========================================================================
+const EXERCISES_DB = [
+  // KLATKA PIERSIOWA
+  { id: 'ex01', name: 'Wyciskanie sztangi na ławce płaskiej', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=wyciskanie+sztangi+%C5%82awka+p%C5%82aska+technika' },
+  { id: 'ex02', name: 'Wyciskanie hantli na ławce płaskiej', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=wyciskanie+hantli+%C5%82awka+p%C5%82aska' },
+  { id: 'ex03', name: 'Wyciskanie na ławce skośnej (góra)', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=wyciskanie+%C5%82awka+sko%C5%9Bna+g%C3%B3ra' },
+  { id: 'ex04', name: 'Rozpiętki z hantlami', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=rozpietki+hantlami+technika' },
+  { id: 'ex05', name: 'Krzyżowanie linek (cable fly)', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=krzyzowanie+linek+cable+fly' },
+  { id: 'ex06', name: 'Pompki klasyczne', muscle: 'Klatka piersiowa', yt: 'https://www.youtube.com/results?search_query=pompki+klasyczne+technika' },
+  // PLECY
+  { id: 'ex10', name: 'Podciąganie na drążku (nachwyt)', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=podciaganie+na+drazku+nachwyt' },
+  { id: 'ex11', name: 'Wiosłowanie sztangą w opadzie', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=wioslowanie+sztanga+opad' },
+  { id: 'ex12', name: 'Wiosłowanie hantlem jednorącz', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=wioslowanie+hantlem+jednorecz' },
+  { id: 'ex13', name: 'Ściąganie drążka wyciągu górnego', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=sciaganie+drazka+wyciag+gorny+lat+pulldown' },
+  { id: 'ex14', name: 'Wiosłowanie na maszynie (seated row)', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=wioslowanie+maszyna+seated+row' },
+  { id: 'ex15', name: 'Hyperextension (prostowanie grzbietu)', muscle: 'Plecy', yt: 'https://www.youtube.com/results?search_query=hyperextension+prostowanie+grzbietu' },
+  // BARKI
+  { id: 'ex20', name: 'Wyciskanie hantli nad głowę (OHP)', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=wyciskanie+hantli+nad+glowe+OHP' },
+  { id: 'ex21', name: 'Wznosy boczne hantlami', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=wznosy+boczne+hantlami+technika' },
+  { id: 'ex22', name: 'Wznosy przednie hantlami', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=wznosy+przednie+hantlami' },
+  { id: 'ex23', name: 'Face pull (wyciąg)', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=face+pull+wyciag+technika' },
+  { id: 'ex24', name: 'Arnoldki', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=arnoldki+cwiczenie+barki' },
+  { id: 'ex25', name: 'Odwrotne rozpiętki (tył barków)', muscle: 'Barki', yt: 'https://www.youtube.com/results?search_query=odwrotne+rozpietki+tyl+barkow' },
+  // BICEPS
+  { id: 'ex30', name: 'Uginanie ramion ze sztangą stojąc', muscle: 'Biceps', yt: 'https://www.youtube.com/results?search_query=uginanie+ramion+sztanga+stojac+biceps' },
+  { id: 'ex31', name: 'Uginanie hantli naprzemiennie', muscle: 'Biceps', yt: 'https://www.youtube.com/results?search_query=uginanie+hantli+naprzemiennie+biceps' },
+  { id: 'ex32', name: 'Uginanie na modlitewniku', muscle: 'Biceps', yt: 'https://www.youtube.com/results?search_query=uginanie+modlitewnik+biceps' },
+  { id: 'ex33', name: 'Uginanie młotkowe (hammer curl)', muscle: 'Biceps', yt: 'https://www.youtube.com/results?search_query=uginanie+mlotkowe+hammer+curl' },
+  // TRICEPS
+  { id: 'ex40', name: 'Prostowanie ramion na wyciągu (pushdown)', muscle: 'Triceps', yt: 'https://www.youtube.com/results?search_query=prostowanie+ramion+wyciag+triceps+pushdown' },
+  { id: 'ex41', name: 'Wyciskanie francuskie (french press)', muscle: 'Triceps', yt: 'https://www.youtube.com/results?search_query=wyciskanie+francuskie+french+press+triceps' },
+  { id: 'ex42', name: 'Pompki na poręczach (dipy)', muscle: 'Triceps', yt: 'https://www.youtube.com/results?search_query=pompki+na+poreczach+dipy+triceps' },
+  { id: 'ex43', name: 'Kick-back hantlami', muscle: 'Triceps', yt: 'https://www.youtube.com/results?search_query=kick+back+hantlami+triceps' },
+  // NOGI (przód)
+  { id: 'ex50', name: 'Przysiady ze sztangą', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=przysiady+ze+sztanga+technika' },
+  { id: 'ex51', name: 'Hack squat (maszyna)', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=hack+squat+maszyna' },
+  { id: 'ex52', name: 'Prasa nożna (leg press)', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=prasa+nozna+leg+press' },
+  { id: 'ex53', name: 'Prostowanie nóg na maszynie', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=prostowanie+nog+maszyna+leg+extension' },
+  { id: 'ex54', name: 'Wykroki z hantlami', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=wykroki+z+hantlami+technika' },
+  { id: 'ex55', name: 'Goblet squat (przysiad z kettlem)', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=goblet+squat+przysiad+kettle' },
+  { id: 'ex56', name: 'Bulgarian split squat', muscle: 'Nogi (przód)', yt: 'https://www.youtube.com/results?search_query=bulgarian+split+squat+technika' },
+  // NOGI (tył) + POŚLADKI
+  { id: 'ex60', name: 'Martwy ciąg rumuński', muscle: 'Nogi (tył)', yt: 'https://www.youtube.com/results?search_query=martwy+ciag+rumunski+technika' },
+  { id: 'ex61', name: 'Uginanie nóg na maszynie leżąc', muscle: 'Nogi (tył)', yt: 'https://www.youtube.com/results?search_query=uginanie+nog+maszyna+lezac' },
+  { id: 'ex62', name: 'Hip thrust (wypychanie bioder)', muscle: 'Pośladki', yt: 'https://www.youtube.com/results?search_query=hip+thrust+wypychanie+bioder' },
+  { id: 'ex63', name: 'Odwodzenie nogi w tył (cable)', muscle: 'Pośladki', yt: 'https://www.youtube.com/results?search_query=odwodzenie+nogi+w+tyl+cable+posladki' },
+  { id: 'ex64', name: 'Odwodzenie nogi w bok (maszyna)', muscle: 'Pośladki', yt: 'https://www.youtube.com/results?search_query=odwodzenie+nogi+w+bok+maszyna' },
+  { id: 'ex65', name: 'Glute bridge (mostek)', muscle: 'Pośladki', yt: 'https://www.youtube.com/results?search_query=glute+bridge+mostek+posladkowy' },
+  // BRZUCH
+  { id: 'ex70', name: 'Plank (deska)', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=plank+deska+technika' },
+  { id: 'ex71', name: 'Spięcia brzucha (crunches)', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=spiecia+brzucha+crunches' },
+  { id: 'ex72', name: 'Unoszenie nóg w zwisie', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=unoszenie+nog+w+zwisie+brzuch' },
+  { id: 'ex73', name: 'Russian twist', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=russian+twist+brzuch' },
+  { id: 'ex74', name: 'Dead bug', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=dead+bug+cwiczenie+brzuch' },
+  { id: 'ex75', name: 'Mountain climbers', muscle: 'Brzuch', yt: 'https://www.youtube.com/results?search_query=mountain+climbers+technika' },
+  // ŁYDKI
+  { id: 'ex80', name: 'Wspięcia na palce stojąc', muscle: 'Łydki', yt: 'https://www.youtube.com/results?search_query=wspiecia+na+palce+stojac+lydki' },
+  { id: 'ex81', name: 'Wspięcia na palce siedząc', muscle: 'Łydki', yt: 'https://www.youtube.com/results?search_query=wspiecia+na+palce+siedzac+lydki' },
+  // CARDIO / FUNKCJONALNE
+  { id: 'ex90', name: 'Burpees', muscle: 'Cardio', yt: 'https://www.youtube.com/results?search_query=burpees+technika' },
+  { id: 'ex91', name: 'Jumping jacks', muscle: 'Cardio', yt: 'https://www.youtube.com/results?search_query=jumping+jacks' },
+  { id: 'ex92', name: 'Kettlebell swing', muscle: 'Cardio', yt: 'https://www.youtube.com/results?search_query=kettlebell+swing+technika' },
+  { id: 'ex93', name: 'Box jump', muscle: 'Cardio', yt: 'https://www.youtube.com/results?search_query=box+jump+technika' },
+  { id: 'ex94', name: 'Skakanka', muscle: 'Cardio', yt: 'https://www.youtube.com/results?search_query=skakanka+technika+trening' },
+];
+
+const MUSCLE_GROUPS = [...new Set(EXERCISES_DB.map(e => e.muscle))].sort();
 
 // ===== HELPERS =====
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -377,6 +453,8 @@ function PageHeader({ title, subtitle, action, onAction, actionIcon, onBack, bac
 // ========================================================================
 function MoreMenu({ onNavigate }) {
   const items = [
+    { id: 'diets', label: 'Plany dietetyczne', icon: 'utensils', desc: 'Diety dla klientek' },
+    { id: 'workouts', label: 'Plany treningowe', icon: 'dumbbell', desc: 'Treningi z filmami YT' },
     { id: 'billing', label: 'Rozliczenia', icon: 'creditcard', desc: 'Pakiety klientów' },
     { id: 'packages', label: 'Pakiety', icon: 'pkg', desc: 'Oferta cenowa' },
     { id: 'products', label: 'Baza produktów', icon: 'apple', desc: '250+ produktów' },
@@ -2182,6 +2260,613 @@ function PhotosGalleryView({ clients, onBack }) {
 
 
 // ========================================================================
+// DIET PLAN VIEW — create diets for clients
+// ========================================================================
+function DietPlanView({ clients, products, onBack }) {
+  const [selectedClientId, setSelectedClientId] = useState('');
+  const [plans, setPlans] = useState([]);
+  const [showCreator, setShowCreator] = useState(false);
+  const [editingPlan, setEditingPlan] = useState(null);
+  const { confirm, dialog } = useConfirm();
+
+  useEffect(() => {
+    try {
+      const list = storage.list('dietplan:');
+      const loaded = [];
+      if (list?.keys) {
+        for (const key of list.keys) {
+          try { const r = storage.get(key); if (r?.value) loaded.push(JSON.parse(r.value)); } catch {}
+        }
+      }
+      setPlans(loaded);
+    } catch {}
+  }, []);
+
+  const savePlan = (plan) => {
+    try {
+      storage.set('dietplan:' + plan.id, JSON.stringify(plan));
+      setPlans(prev => {
+        const idx = prev.findIndex(p => p.id === plan.id);
+        if (idx >= 0) { const n = [...prev]; n[idx] = plan; return n; }
+        return [...prev, plan];
+      });
+    } catch {}
+    setShowCreator(false);
+    setEditingPlan(null);
+  };
+
+  const deletePlan = async (id) => {
+    if (await confirm('Usunąć ten plan diety?')) {
+      storage.delete('dietplan:' + id);
+      setPlans(prev => prev.filter(p => p.id !== id));
+    }
+  };
+
+  const clientPlans = selectedClientId ? plans.filter(p => p.clientId === selectedClientId) : plans;
+  const getClientName = (id) => clients.find(c => c.id === id)?.name || '?';
+
+  if (showCreator || editingPlan) {
+    return React.createElement(DietCreator, {
+      plan: editingPlan, clients, products,
+      onSave: savePlan,
+      onCancel: () => { setShowCreator(false); setEditingPlan(null); },
+    });
+  }
+
+  return (
+    <div className="page-content">
+      {dialog}
+      <PageHeader title="Plany dietetyczne" subtitle={`${plans.length} planów`} onBack={onBack} backLabel="Więcej" action="Dodaj" onAction={() => setShowCreator(true)} />
+      <select className="field-input" value={selectedClientId} onChange={e => setSelectedClientId(e.target.value)} style={{ marginBottom: 12 }}>
+        <option value="">Wszystkie klientki</option>
+        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+      {clientPlans.length === 0 && (
+        <div className="empty-state">
+          <p>Brak planów dietetycznych</p>
+          <p style={{ fontSize: 12, color: 'var(--muted)' }}>Kliknij + aby utworzyć pierwszy plan</p>
+        </div>
+      )}
+      {clientPlans.map(plan => {
+        const totalKcal = (plan.meals || []).reduce((sum, meal) => sum + (meal.items || []).reduce((s, item) => s + (item.kcal || 0), 0), 0);
+        return (
+          <div key={plan.id} className="card" style={{ marginBottom: 8, padding: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 15 }}>{plan.name || 'Plan diety'}</div>
+                <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>{getClientName(plan.clientId)} · {Math.round(totalKcal)} kcal/dzień</div>
+                <div style={{ fontSize: 12, color: 'var(--muted)' }}>Cel: {GOALS.find(g => g.value === plan.goal)?.label || plan.goal}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 4 }}>
+                <button className="icon-btn" onClick={() => setEditingPlan(plan)}><Icon2 name="edit" size={16} /></button>
+                <button className="icon-btn" onClick={() => deletePlan(plan.id)}><Icon2 name="trash" size={16} style={{ color: 'var(--danger, #c65d3e)' }} /></button>
+              </div>
+            </div>
+            <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {(plan.meals || []).map((meal, i) => (
+                <span key={i} style={{ fontSize: 11, background: 'var(--bg)', padding: '2px 8px', borderRadius: 10, color: 'var(--text-secondary)' }}>{meal.name}</span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ========================================================================
+// DIET CREATOR — calculate needs + build meals
+// ========================================================================
+function DietCreator({ plan, clients, products, onSave, onCancel }) {
+  const isEdit = !!plan;
+  const [clientId, setClientId] = useState(plan?.clientId || '');
+  const [planName, setPlanName] = useState(plan?.name || '');
+  const [goal, setGoal] = useState(plan?.goal || 'maintenance');
+  const [activityLevel, setActivityLevel] = useState(plan?.activityLevel || 1.55);
+  const [meals, setMeals] = useState(plan?.meals || MEAL_TYPES.map(name => ({ name, items: [] })));
+  const [editingMealIdx, setEditingMealIdx] = useState(null);
+  const [showProductPicker, setShowProductPicker] = useState(false);
+  const [prodSearch, setProdSearch] = useState('');
+
+  const client = clients.find(c => c.id === clientId);
+
+  // Mifflin-St Jeor BMR
+  const bmr = useMemo(() => {
+    if (!client) return 0;
+    const w = parseFloat(client.weight) || 65;
+    const h = parseFloat(client.height) || 165;
+    const a = parseInt(client.age) || 30;
+    const sex = (client.sex || client.gender || 'female').toLowerCase();
+    if (sex === 'male' || sex === 'm' || sex === 'mężczyzna') return 10 * w + 6.25 * h - 5 * a + 5;
+    return 10 * w + 6.25 * h - 5 * a - 161;
+  }, [client]);
+
+  const tdee = Math.round(bmr * activityLevel);
+  const goalAdjust = GOALS.find(g => g.value === goal)?.adjust || 0;
+  const targetKcal = Math.round(tdee * (1 + goalAdjust));
+
+  const macros = useMemo(() => {
+    let proteinPct, carbsPct, fatPct;
+    if (goal === 'reduction') { proteinPct = 0.35; fatPct = 0.25; carbsPct = 0.40; }
+    else if (goal === 'mass' || goal === 'lean_mass') { proteinPct = 0.25; fatPct = 0.25; carbsPct = 0.50; }
+    else { proteinPct = 0.30; fatPct = 0.25; carbsPct = 0.45; }
+    return {
+      protein: Math.round(targetKcal * proteinPct / 4),
+      carbs: Math.round(targetKcal * carbsPct / 4),
+      fat: Math.round(targetKcal * fatPct / 9),
+    };
+  }, [targetKcal, goal]);
+
+  const totals = useMemo(() => {
+    let kcal = 0, protein = 0, carbs = 0, fat = 0;
+    meals.forEach(meal => {
+      (meal.items || []).forEach(item => {
+        kcal += item.kcal || 0; protein += item.protein || 0;
+        carbs += item.carbs || 0; fat += item.fat || 0;
+      });
+    });
+    return { kcal: Math.round(kcal), protein: Math.round(protein), carbs: Math.round(carbs), fat: Math.round(fat) };
+  }, [meals]);
+
+  const addProductToMeal = (product, grams) => {
+    if (editingMealIdx === null) return;
+    const g = parseFloat(grams) || 100;
+    const factor = g / 100;
+    const item = {
+      productId: product.id, name: product.name, grams: g,
+      kcal: Math.round((product.kcal || 0) * factor),
+      protein: Math.round((product.protein || 0) * factor * 10) / 10,
+      carbs: Math.round((product.carbs || 0) * factor * 10) / 10,
+      fat: Math.round((product.fat || 0) * factor * 10) / 10,
+    };
+    setMeals(prev => {
+      const n = [...prev];
+      n[editingMealIdx] = { ...n[editingMealIdx], items: [...(n[editingMealIdx].items || []), item] };
+      return n;
+    });
+    setShowProductPicker(false);
+    setProdSearch('');
+  };
+
+  const removeItemFromMeal = (mealIdx, itemIdx) => {
+    setMeals(prev => {
+      const n = [...prev];
+      n[mealIdx] = { ...n[mealIdx], items: n[mealIdx].items.filter((_, i) => i !== itemIdx) };
+      return n;
+    });
+  };
+
+  const handleSave = () => {
+    if (!clientId) return;
+    onSave({
+      id: plan?.id || uid(), clientId, name: planName || 'Plan diety', goal, activityLevel, targetKcal, macros, meals,
+      createdAt: plan?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
+  const filteredProducts = useMemo(() => {
+    if (!prodSearch) return products.slice(0, 30);
+    const q = prodSearch.toLowerCase();
+    return products.filter(p => p.name.toLowerCase().includes(q)).slice(0, 30);
+  }, [products, prodSearch]);
+
+  if (showProductPicker) {
+    return (
+      <div className="page-content">
+        <PageHeader title="Dodaj produkt" onBack={() => { setShowProductPicker(false); setProdSearch(''); }} backLabel="Wróć" />
+        <div className="search-bar">
+          <Icon2 name="search" size={16} style={{ color: 'var(--muted)' }} />
+          <input type="text" placeholder="Szukaj produktu..." value={prodSearch} onChange={e => setProdSearch(e.target.value)} autoFocus />
+        </div>
+        {filteredProducts.map(p => <ProductPickerRow key={p.id} product={p} onAdd={addProductToMeal} />)}
+        {filteredProducts.length === 0 && <div className="empty-state"><p>Nie znaleziono produktów</p></div>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="page-content">
+      <PageHeader title={isEdit ? 'Edytuj dietę' : 'Nowa dieta'} onBack={onCancel} backLabel="Anuluj" />
+      <label className="field-label">Klientka</label>
+      <select className="field-input" value={clientId} onChange={e => setClientId(e.target.value)}>
+        <option value="">Wybierz...</option>
+        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+      <label className="field-label" style={{ marginTop: 12 }}>Nazwa planu</label>
+      <input className="field-input" value={planName} onChange={e => setPlanName(e.target.value)} placeholder="np. Dieta redukcyjna 1800 kcal" />
+      <label className="field-label" style={{ marginTop: 12 }}>Cel</label>
+      <select className="field-input" value={goal} onChange={e => setGoal(e.target.value)}>
+        {GOALS.map(g => <option key={g.value} value={g.value}>{g.label}</option>)}
+      </select>
+      <label className="field-label" style={{ marginTop: 12 }}>Poziom aktywności</label>
+      <select className="field-input" value={activityLevel} onChange={e => setActivityLevel(parseFloat(e.target.value))}>
+        {ACTIVITY_LEVELS.map(a => <option key={a.value} value={a.value}>{a.label} — {a.hint}</option>)}
+      </select>
+      {client && (
+        <div className="card" style={{ marginTop: 12, padding: 12, background: 'var(--cream, var(--bg))' }}>
+          <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 8 }}>Wyliczone zapotrzebowanie</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 13 }}>
+            <div>BMR: <strong>{Math.round(bmr)} kcal</strong></div>
+            <div>TDEE: <strong>{tdee} kcal</strong></div>
+            <div>Cel: <strong style={{ color: GOALS.find(g => g.value === goal)?.color }}>{targetKcal} kcal</strong></div>
+            <div>B: {macros.protein}g · W: {macros.carbs}g · T: {macros.fat}g</div>
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
+              <span>Aktualnie: {totals.kcal} kcal</span>
+              <span>{targetKcal > 0 ? Math.round(totals.kcal / targetKcal * 100) : 0}%</span>
+            </div>
+            <div style={{ height: 6, background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${targetKcal > 0 ? Math.min(100, totals.kcal / targetKcal * 100) : 0}%`, background: totals.kcal > targetKcal * 1.05 ? '#c65d3e' : 'var(--primary)', borderRadius: 3, transition: 'width 0.3s' }} />
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
+              B: {totals.protein}g/{macros.protein}g · W: {totals.carbs}g/{macros.carbs}g · T: {totals.fat}g/{macros.fat}g
+            </div>
+          </div>
+        </div>
+      )}
+      <div style={{ marginTop: 16 }}>
+        <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 8 }}>Posiłki</div>
+        {meals.map((meal, mIdx) => {
+          const mealKcal = (meal.items || []).reduce((s, i) => s + (i.kcal || 0), 0);
+          return (
+            <div key={mIdx} className="card" style={{ marginBottom: 8, padding: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <span style={{ fontWeight: 500, fontSize: 14 }}>{meal.name}</span>
+                <span style={{ fontSize: 12, color: 'var(--muted)' }}>{Math.round(mealKcal)} kcal</span>
+              </div>
+              {(meal.items || []).map((item, iIdx) => (
+                <div key={iIdx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', fontSize: 13, borderTop: '1px solid var(--border)' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--muted)' }}>{item.grams}g · {item.kcal}kcal · B:{item.protein} W:{item.carbs} T:{item.fat}</div>
+                  </div>
+                  <button className="icon-btn" onClick={() => removeItemFromMeal(mIdx, iIdx)} style={{ marginLeft: 4 }}>
+                    <Icon2 name="x" size={14} style={{ color: 'var(--danger, #c65d3e)' }} />
+                  </button>
+                </div>
+              ))}
+              <button className="btn btn-sm btn-outline" style={{ marginTop: 6, width: '100%' }} onClick={() => { setEditingMealIdx(mIdx); setShowProductPicker(true); }}>
+                <Icon2 name="plus" size={14} /> Dodaj produkt
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <button className="btn btn-primary" style={{ width: '100%', marginTop: 12 }} onClick={handleSave} disabled={!clientId}>
+        <Icon2 name="save" size={16} /> Zapisz dietę
+      </button>
+    </div>
+  );
+}
+
+function ProductPickerRow({ product, onAdd }) {
+  const [grams, setGrams] = useState('100');
+  return (
+    <div className="card" style={{ marginBottom: 4, padding: '8px 10px' }}>
+      <div style={{ fontSize: 14, fontWeight: 500 }}>{product.name}</div>
+      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>{product.kcal}kcal/100g · B:{product.protein} W:{product.carbs} T:{product.fat}</div>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <input type="number" className="field-input" style={{ width: 80 }} value={grams} onChange={e => setGrams(e.target.value)} placeholder="g" />
+        <span style={{ fontSize: 12, color: 'var(--muted)' }}>g</span>
+        <button className="btn btn-sm btn-primary" onClick={() => onAdd(product, grams)}>Dodaj</button>
+      </div>
+    </div>
+  );
+}
+
+// ========================================================================
+// WORKOUT PLAN VIEW — create training plans for clients
+// ========================================================================
+function WorkoutPlanView({ clients, onBack }) {
+  const [plans, setPlans] = useState([]);
+  const [selectedClientId, setSelectedClientId] = useState('');
+  const [showCreator, setShowCreator] = useState(false);
+  const [editingPlan, setEditingPlan] = useState(null);
+  const [expandedPlan, setExpandedPlan] = useState(null);
+  const { confirm, dialog } = useConfirm();
+
+  useEffect(() => {
+    try {
+      const list = storage.list('workoutplan:');
+      const loaded = [];
+      if (list?.keys) {
+        for (const key of list.keys) {
+          try { const r = storage.get(key); if (r?.value) loaded.push(JSON.parse(r.value)); } catch {}
+        }
+      }
+      setPlans(loaded);
+    } catch {}
+  }, []);
+
+  const savePlan = (plan) => {
+    storage.set('workoutplan:' + plan.id, JSON.stringify(plan));
+    setPlans(prev => {
+      const idx = prev.findIndex(p => p.id === plan.id);
+      if (idx >= 0) { const n = [...prev]; n[idx] = plan; return n; }
+      return [...prev, plan];
+    });
+    setShowCreator(false);
+    setEditingPlan(null);
+  };
+
+  const deletePlan = async (id) => {
+    if (await confirm('Usunąć ten plan treningowy?')) {
+      storage.delete('workoutplan:' + id);
+      setPlans(prev => prev.filter(p => p.id !== id));
+    }
+  };
+
+  const clientPlans = selectedClientId ? plans.filter(p => p.clientId === selectedClientId) : plans;
+  const getClientName = (id) => clients.find(c => c.id === id)?.name || '?';
+
+  if (showCreator || editingPlan) {
+    return React.createElement(WorkoutCreator, {
+      plan: editingPlan, clients,
+      onSave: savePlan,
+      onCancel: () => { setShowCreator(false); setEditingPlan(null); },
+    });
+  }
+
+  return (
+    <div className="page-content">
+      {dialog}
+      <PageHeader title="Plany treningowe" subtitle={`${plans.length} planów`} onBack={onBack} backLabel="Więcej" action="Dodaj" onAction={() => setShowCreator(true)} />
+      <select className="field-input" value={selectedClientId} onChange={e => setSelectedClientId(e.target.value)} style={{ marginBottom: 12 }}>
+        <option value="">Wszystkie klientki</option>
+        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+      {clientPlans.length === 0 && (
+        <div className="empty-state">
+          <p>Brak planów treningowych</p>
+          <p style={{ fontSize: 12, color: 'var(--muted)' }}>Kliknij + aby utworzyć pierwszy plan</p>
+        </div>
+      )}
+      {clientPlans.map(plan => (
+        <div key={plan.id} className="card" style={{ marginBottom: 8, padding: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <button style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left', cursor: 'pointer', flex: 1 }} onClick={() => setExpandedPlan(expandedPlan === plan.id ? null : plan.id)}>
+              <div style={{ fontWeight: 600, fontSize: 15 }}>{plan.name || 'Plan treningowy'}</div>
+              <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>{getClientName(plan.clientId)} · {(plan.days || []).length} dni treningowych</div>
+            </button>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button className="icon-btn" onClick={() => setEditingPlan(plan)}><Icon2 name="edit" size={16} /></button>
+              <button className="icon-btn" onClick={() => deletePlan(plan.id)}><Icon2 name="trash" size={16} style={{ color: 'var(--danger, #c65d3e)' }} /></button>
+            </div>
+          </div>
+          {expandedPlan === plan.id && (
+            <div style={{ marginTop: 10 }}>
+              {(plan.days || []).map((day, dIdx) => (
+                <div key={dIdx} style={{ marginBottom: 10 }}>
+                  <div style={{ fontWeight: 500, fontSize: 13, color: 'var(--primary)', marginBottom: 4 }}>{day.name}</div>
+                  {(day.exercises || []).map((ex, eIdx) => (
+                    <div key={eIdx} style={{ fontSize: 13, padding: '4px 0', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div>{ex.name}</div>
+                        <div style={{ fontSize: 11, color: 'var(--muted)' }}>{ex.sets}×{ex.reps} {ex.tempo ? `tempo ${ex.tempo}` : ''} {ex.rest ? `· odp. ${ex.rest}s` : ''}</div>
+                      </div>
+                      {ex.yt && (
+                        <a href={ex.yt} target="_blank" rel="noopener noreferrer" style={{ color: '#c00', flexShrink: 0 }}>
+                          <Icon2 name="play" size={16} />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ========================================================================
+// WORKOUT CREATOR — build training days with exercises
+// ========================================================================
+function WorkoutCreator({ plan, clients, onSave, onCancel }) {
+  const isEdit = !!plan;
+  const [clientId, setClientId] = useState(plan?.clientId || '');
+  const [planName, setPlanName] = useState(plan?.name || '');
+  const [days, setDays] = useState(plan?.days || []);
+  const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [editingDayIdx, setEditingDayIdx] = useState(null);
+  const [newDayName, setNewDayName] = useState('');
+  const [swapTarget, setSwapTarget] = useState(null);
+
+  const addDay = () => {
+    const name = newDayName.trim() || `Dzień ${days.length + 1}`;
+    setDays(prev => [...prev, { name, exercises: [] }]);
+    setNewDayName('');
+  };
+
+  const removeDay = (idx) => { setDays(prev => prev.filter((_, i) => i !== idx)); };
+
+  const addExerciseToDay = (exercise) => {
+    if (editingDayIdx === null) return;
+    const ex = { exerciseId: exercise.id, name: exercise.name, muscle: exercise.muscle, yt: exercise.yt, sets: 3, reps: '12', tempo: '', rest: 60 };
+    setDays(prev => {
+      const n = [...prev];
+      n[editingDayIdx] = { ...n[editingDayIdx], exercises: [...n[editingDayIdx].exercises, ex] };
+      return n;
+    });
+    setShowExercisePicker(false);
+  };
+
+  const swapExercise = (newExercise) => {
+    if (!swapTarget) return;
+    const { dayIdx, exIdx } = swapTarget;
+    setDays(prev => {
+      const n = [...prev];
+      const oldEx = n[dayIdx].exercises[exIdx];
+      n[dayIdx].exercises[exIdx] = { ...oldEx, exerciseId: newExercise.id, name: newExercise.name, muscle: newExercise.muscle, yt: newExercise.yt };
+      return n;
+    });
+    setSwapTarget(null);
+  };
+
+  const removeExercise = (dayIdx, exIdx) => {
+    setDays(prev => {
+      const n = [...prev];
+      n[dayIdx] = { ...n[dayIdx], exercises: n[dayIdx].exercises.filter((_, i) => i !== exIdx) };
+      return n;
+    });
+  };
+
+  const updateExercise = (dayIdx, exIdx, field, value) => {
+    setDays(prev => {
+      const n = [...prev];
+      n[dayIdx].exercises[exIdx] = { ...n[dayIdx].exercises[exIdx], [field]: value };
+      return n;
+    });
+  };
+
+  const handleSave = () => {
+    if (!clientId) return;
+    onSave({
+      id: plan?.id || uid(), clientId, name: planName || 'Plan treningowy', days,
+      createdAt: plan?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  };
+
+  if (showExercisePicker || swapTarget) {
+    const filterMuscle = swapTarget?.muscle || null;
+    return React.createElement(ExercisePicker, {
+      filterMuscle,
+      onSelect: swapTarget ? swapExercise : addExerciseToDay,
+      onCancel: () => { setShowExercisePicker(false); setSwapTarget(null); },
+    });
+  }
+
+  return (
+    <div className="page-content">
+      <PageHeader title={isEdit ? 'Edytuj plan' : 'Nowy plan treningowy'} onBack={onCancel} backLabel="Anuluj" />
+      <label className="field-label">Klientka</label>
+      <select className="field-input" value={clientId} onChange={e => setClientId(e.target.value)}>
+        <option value="">Wybierz...</option>
+        {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+      <label className="field-label" style={{ marginTop: 12 }}>Nazwa planu</label>
+      <input className="field-input" value={planName} onChange={e => setPlanName(e.target.value)} placeholder="np. Plan A — Góra/Dół" />
+      <div style={{ marginTop: 16 }}>
+        <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 8 }}>Dni treningowe</div>
+        {days.map((day, dIdx) => (
+          <div key={dIdx} className="card" style={{ marginBottom: 10, padding: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontWeight: 500, fontSize: 14 }}>{day.name}</span>
+              <button className="icon-btn" onClick={() => removeDay(dIdx)}>
+                <Icon2 name="trash" size={14} style={{ color: 'var(--danger, #c65d3e)' }} />
+              </button>
+            </div>
+            {(day.exercises || []).map((ex, eIdx) => (
+              <div key={eIdx} style={{ borderTop: '1px solid var(--border)', padding: '8px 0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 500 }}>{ex.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--muted)' }}>{ex.muscle}</div>
+                  </div>
+                  {ex.yt && (
+                    <a href={ex.yt} target="_blank" rel="noopener noreferrer" style={{ color: '#c00', flexShrink: 0 }} title="Film instruktażowy">
+                      <Icon2 name="play" size={18} />
+                    </a>
+                  )}
+                  <button className="icon-btn" onClick={() => setSwapTarget({ dayIdx: dIdx, exIdx: eIdx, muscle: ex.muscle })} title="Zamień na inne">
+                    <Icon2 name="swap" size={16} style={{ color: 'var(--primary)' }} />
+                  </button>
+                  <button className="icon-btn" onClick={() => removeExercise(dIdx, eIdx)}>
+                    <Icon2 name="x" size={14} style={{ color: 'var(--danger, #c65d3e)' }} />
+                  </button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, fontSize: 12 }}>
+                  <div>
+                    <label style={{ color: 'var(--muted)', fontSize: 10 }}>Serie</label>
+                    <input type="number" className="field-input" style={{ fontSize: 13, padding: '4px 6px' }} value={ex.sets} onChange={e => updateExercise(dIdx, eIdx, 'sets', parseInt(e.target.value) || 0)} />
+                  </div>
+                  <div>
+                    <label style={{ color: 'var(--muted)', fontSize: 10 }}>Powtórzenia</label>
+                    <input className="field-input" style={{ fontSize: 13, padding: '4px 6px' }} value={ex.reps} onChange={e => updateExercise(dIdx, eIdx, 'reps', e.target.value)} placeholder="12" />
+                  </div>
+                  <div>
+                    <label style={{ color: 'var(--muted)', fontSize: 10 }}>Tempo</label>
+                    <input className="field-input" style={{ fontSize: 13, padding: '4px 6px' }} value={ex.tempo || ''} onChange={e => updateExercise(dIdx, eIdx, 'tempo', e.target.value)} placeholder="2-1-2" />
+                  </div>
+                  <div>
+                    <label style={{ color: 'var(--muted)', fontSize: 10 }}>Odp. (s)</label>
+                    <input type="number" className="field-input" style={{ fontSize: 13, padding: '4px 6px' }} value={ex.rest} onChange={e => updateExercise(dIdx, eIdx, 'rest', parseInt(e.target.value) || 0)} />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <button className="btn btn-sm btn-outline" style={{ marginTop: 6, width: '100%' }} onClick={() => { setEditingDayIdx(dIdx); setShowExercisePicker(true); }}>
+              <Icon2 name="plus" size={14} /> Dodaj ćwiczenie
+            </button>
+          </div>
+        ))}
+        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+          <input className="field-input" style={{ flex: 1 }} value={newDayName} onChange={e => setNewDayName(e.target.value)} placeholder="Nazwa dnia (np. Dzień A — Góra)" />
+          <button className="btn btn-sm" onClick={addDay}>
+            <Icon2 name="plus" size={14} /> Dzień
+          </button>
+        </div>
+      </div>
+      <button className="btn btn-primary" style={{ width: '100%', marginTop: 16 }} onClick={handleSave} disabled={!clientId}>
+        <Icon2 name="save" size={16} /> Zapisz plan
+      </button>
+    </div>
+  );
+}
+
+// ========================================================================
+// EXERCISE PICKER — browse & search exercises, filter by muscle
+// ========================================================================
+function ExercisePicker({ filterMuscle, onSelect, onCancel }) {
+  const [search, setSearch] = useState('');
+  const [muscleFilter, setMuscleFilter] = useState(filterMuscle || 'all');
+
+  const filtered = useMemo(() => {
+    let list = EXERCISES_DB;
+    if (muscleFilter !== 'all') list = list.filter(e => e.muscle === muscleFilter);
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(e => e.name.toLowerCase().includes(q) || e.muscle.toLowerCase().includes(q));
+    }
+    return list;
+  }, [search, muscleFilter]);
+
+  return (
+    <div className="page-content">
+      <PageHeader title={filterMuscle ? `Zamień (${filterMuscle})` : 'Wybierz ćwiczenie'} onBack={onCancel} backLabel="Anuluj" />
+      <div className="search-bar">
+        <Icon2 name="search" size={16} style={{ color: 'var(--muted)' }} />
+        <input type="text" placeholder="Szukaj ćwiczenia..." value={search} onChange={e => setSearch(e.target.value)} autoFocus />
+      </div>
+      <div className="category-scroll">
+        <button className={`cat-chip ${muscleFilter === 'all' ? 'active' : ''}`} onClick={() => setMuscleFilter('all')}>Wszystkie</button>
+        {MUSCLE_GROUPS.map(g => (
+          <button key={g} className={`cat-chip ${muscleFilter === g ? 'active' : ''}`} onClick={() => setMuscleFilter(g)}>{g}</button>
+        ))}
+      </div>
+      {filtered.map(ex => (
+        <button key={ex.id} className="card" style={{ width: '100%', marginBottom: 4, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', border: '1px solid var(--border)', background: 'var(--bg-card)' }} onClick={() => onSelect(ex)}>
+          <div style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>{ex.name}</div>
+            <div style={{ fontSize: 11, color: 'var(--muted)' }}>{ex.muscle}</div>
+          </div>
+          <a href={ex.yt} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ color: '#c00', flexShrink: 0 }}>
+            <Icon2 name="play" size={18} />
+          </a>
+        </button>
+      ))}
+      {filtered.length === 0 && <div className="empty-state"><p>Nie znaleziono ćwiczeń</p></div>}
+    </div>
+  );
+}
+
+
+// ========================================================================
 // MAIN APP
 // ========================================================================
 function StudioTreneraApp() {
@@ -2209,6 +2894,16 @@ function StudioTreneraApp() {
       if (pr?.value) return JSON.parse(pr.value);
     } catch {}
     return [];
+  }, []);
+
+  // Request persistent storage (prevents iOS 7-day purge)
+  useEffect(() => {
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then(granted => {
+        if (granted) console.log('Persistent storage granted');
+        else console.log('Persistent storage denied');
+      });
+    }
   }, []);
 
   // Load data
@@ -2393,6 +3088,10 @@ function StudioTreneraApp() {
             onPhotoAdd={handlePhotoAdd}
             onPhotoDelete={handlePhotoDelete}
           />
+        ) : subView === 'diets' ? (
+          <DietPlanView clients={clients} products={products} onBack={() => setSubView(null)} />
+        ) : subView === 'workouts' ? (
+          <WorkoutPlanView clients={clients} onBack={() => setSubView(null)} />
         ) : subView === 'billing' ? (
           <BillingView clients={clients} packages={packages} clientPackages={clientPackages} onSaveClientPackage={saveClientPackage} onDeleteClientPackage={deleteClientPackage} trainings={trainings} onBack={() => setSubView(null)} />
         ) : subView === 'packages' ? (
