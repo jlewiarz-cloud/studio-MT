@@ -79,15 +79,21 @@ body {
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .main-content {
   flex: 1;
+  width: 100%;
+  min-width: 0;
   padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 /* ===== TAB BAR ===== */
@@ -130,6 +136,9 @@ body {
 /* ===== PAGE HEADER ===== */
 .page-content {
   padding: 12px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .page-header {

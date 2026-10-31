@@ -27,11 +27,13 @@
     html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      overflow-x: hidden;
       overscroll-behavior: none;
       -webkit-text-size-adjust: 100%;
     }
     /* Prevent iOS double-tap zoom */
-    * { touch-action: manipulation; }
+    * { touch-action: manipulation; box-sizing: border-box; }
   </style>
 
   <!-- React -->
