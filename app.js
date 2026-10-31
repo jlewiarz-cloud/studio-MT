@@ -2080,12 +2080,16 @@ function CalendarView({
   const [showForm, setShowForm] = useState(false);
   const [voiceMode, setVoiceMode] = useState(false);
   const [voiceText, setVoiceText] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [voiceStatus, setVoiceStatus] = useState('');
+  const recognitionRef = useRef(null);
   const {
     confirm,
     dialog
   } = useConfirm();
   const daysInMonth = getDaysInMonth(year, month);
   const firstDay = getFirstDayOfWeek(year, month);
+  const speechSupported = typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
   const getClientName = id => {
     const c = clients.find(cl => cl.id === id);
     return c?.name || '?';
@@ -2113,11 +2117,78 @@ function CalendarView({
     } else setMonth(m => m + 1);
   };
 
-  // Voice input handler
+  // Web Speech API — real voice recognition
+  const startListening = () => {
+    if (!speechSupported) {
+      setVoiceStatus('Twoja przeglądarka nie wspiera rozpoznawania mowy');
+      return;
+    }
+    try {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'pl-PL';
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
+      recognition.onstart = () => {
+        setIsListening(true);
+        setVoiceStatus('Słucham... mów teraz');
+      };
+      recognition.onresult = event => {
+        let interim = '';
+        let final = '';
+        for (let i = 0; i < event.results.length; i++) {
+          if (event.results[i].isFinal) {
+            final += event.results[i][0].transcript;
+          } else {
+            interim += event.results[i][0].transcript;
+          }
+        }
+        setVoiceText(final || interim);
+        if (final) {
+          setVoiceStatus('Rozpoznano! Możesz poprawić lub dodać trening.');
+        }
+      };
+      recognition.onerror = event => {
+        setIsListening(false);
+        if (event.error === 'not-allowed') {
+          setVoiceStatus('Brak dostępu do mikrofonu — zezwól w ustawieniach');
+        } else if (event.error === 'no-speech') {
+          setVoiceStatus('Nie wykryto mowy — spróbuj ponownie');
+        } else {
+          setVoiceStatus('Błąd: ' + event.error);
+        }
+      };
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch (e) {
+      setVoiceStatus('Błąd uruchamiania mikrofonu: ' + e.message);
+    }
+  };
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
+    };
+  }, []);
+
+  // Voice input handler — submit parsed text
   const handleVoiceSubmit = () => {
     if (!voiceText.trim()) return;
     const parsed = parseTrainingVoice(voiceText);
-    // Find client by name
     let clientId = null;
     if (parsed.clientName) {
       const found = clients.find(c => (c.name || '').toLowerCase().includes(parsed.clientName.toLowerCase()));
@@ -2134,6 +2205,13 @@ function CalendarView({
       });
       setVoiceText('');
       setVoiceMode(false);
+      setVoiceStatus('');
+    } else {
+      // Show what's missing
+      const missing = [];
+      if (!clientId) missing.push(parsed.clientName ? `nie znaleziono klientki "${parsed.clientName}"` : 'brak imienia klientki');
+      if (!parsed.date) missing.push('brak daty');
+      setVoiceStatus('Nie udało się: ' + missing.join(', ') + '. Popraw tekst lub spróbuj ponownie.');
     }
   };
   return /*#__PURE__*/React.createElement("div", {
@@ -2145,7 +2223,14 @@ function CalendarView({
     onAction: () => setShowForm(true)
   }), /*#__PURE__*/React.createElement("button", {
     className: "voice-toggle",
-    onClick: () => setVoiceMode(!voiceMode)
+    onClick: () => {
+      setVoiceMode(!voiceMode);
+      if (voiceMode) {
+        stopListening();
+        setVoiceText('');
+        setVoiceStatus('');
+      }
+    }
   }, /*#__PURE__*/React.createElement(Icon2, {
     name: "mic",
     size: 18,
@@ -2160,12 +2245,84 @@ function CalendarView({
       color: 'var(--muted)',
       margin: '0 0 8px'
     }
-  }, "Przyk\u0142ad: \"Trening z Ann\u0105 jutro o 15:00\""), /*#__PURE__*/React.createElement("textarea", {
+  }, "Powiedz np. \"Trening z Ann\u0105 jutro o 15:00\""), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: isListening ? stopListening : startListening,
+    style: {
+      width: 64,
+      height: 64,
+      borderRadius: '50%',
+      border: 'none',
+      cursor: 'pointer',
+      background: isListening ? 'var(--danger, #e53e3e)' : 'var(--primary)',
+      color: '#fff',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: isListening ? '0 0 0 6px rgba(229,62,62,0.25)' : 'none',
+      animation: isListening ? 'pulse-mic 1.5s infinite' : 'none',
+      transition: 'all 0.2s'
+    }
+  }, /*#__PURE__*/React.createElement(Icon2, {
+    name: "mic",
+    size: 28
+  })), voiceStatus && /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 13,
+      color: isListening ? 'var(--primary)' : 'var(--muted)',
+      margin: 0,
+      textAlign: 'center'
+    }
+  }, voiceStatus)), voiceText && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("textarea", {
     className: "field-input",
     rows: 2,
     value: voiceText,
     onChange: e => setVoiceText(e.target.value),
-    placeholder: "Dyktuj lub wpisz..."
+    placeholder: "Rozpoznany tekst..."
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      marginTop: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm",
+    onClick: handleVoiceSubmit
+  }, /*#__PURE__*/React.createElement(Icon2, {
+    name: "check",
+    size: 14
+  }), " Dodaj trening"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm btn-outline",
+    onClick: () => {
+      setVoiceText('');
+      setVoiceStatus('');
+    }
+  }, "Wyczy\u015B\u0107"))), !speechSupported && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: 'var(--danger, #e53e3e)',
+      margin: '0 0 8px'
+    }
+  }, "Rozpoznawanie mowy nie jest dost\u0119pne w tej przegl\u0105darce. Wpisz tekst r\u0119cznie:"), /*#__PURE__*/React.createElement("textarea", {
+    className: "field-input",
+    rows: 2,
+    value: voiceText,
+    onChange: e => setVoiceText(e.target.value),
+    placeholder: "Wpisz np. Trening z Ann\u0105 jutro o 15:00"
   }), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-sm",
     style: {
@@ -2176,7 +2333,7 @@ function CalendarView({
   }, /*#__PURE__*/React.createElement(Icon2, {
     name: "check",
     size: 14
-  }), " Dodaj trening")), /*#__PURE__*/React.createElement("div", {
+  }), " Dodaj trening"))), /*#__PURE__*/React.createElement("div", {
     className: "month-nav"
   }, /*#__PURE__*/React.createElement("button", {
     className: "icon-btn",
