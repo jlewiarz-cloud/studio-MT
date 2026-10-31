@@ -7,6 +7,18 @@ const {
 } = React;
 
 // ===== STORAGE =====
+// Test if localStorage actually persists
+const _storageAvailable = (() => {
+  try {
+    const t = '__storage_test__';
+    localStorage.setItem(t, '1');
+    const v = localStorage.getItem(t);
+    localStorage.removeItem(t);
+    return v === '1';
+  } catch {
+    return false;
+  }
+})();
 const storage = {
   get(key) {
     try {
@@ -21,7 +33,12 @@ const storage = {
   set(key, value) {
     try {
       localStorage.setItem('dp_' + key, value);
-    } catch {}
+      // Verify write succeeded
+      const check = localStorage.getItem('dp_' + key);
+      if (check !== value) console.warn('Storage write verification failed for:', key);
+    } catch (e) {
+      console.error('Storage write failed:', key, e);
+    }
   },
   delete(key) {
     try {
@@ -43,6 +60,9 @@ const storage = {
         keys: []
       };
     }
+  },
+  get isAvailable() {
+    return _storageAvailable;
   }
 };
 
@@ -938,7 +958,7 @@ function MoreMenu({
   return /*#__PURE__*/React.createElement("div", {
     className: "page-content"
   }, /*#__PURE__*/React.createElement(PageHeader, {
-    title: "Więcej",
+    title: "Wi\u0119cej",
     subtitle: "Dodatkowe funkcje"
   }), /*#__PURE__*/React.createElement("div", {
     className: "card-list"
@@ -1118,7 +1138,7 @@ function ClientFormSheet({
     className: "sheet-body"
   }, /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Imię i nazwisko *"), /*#__PURE__*/React.createElement("input", {
+  }, "Imi\u0119 i nazwisko *"), /*#__PURE__*/React.createElement("input", {
     className: "field-input",
     value: name,
     onChange: e => setName(e.target.value),
@@ -1165,7 +1185,7 @@ function ClientFormSheet({
     placeholder: "170"
   }))), /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Płeć"), /*#__PURE__*/React.createElement("div", {
+  }, "P\u0142e\u0107"), /*#__PURE__*/React.createElement("div", {
     className: "segment-control"
   }, /*#__PURE__*/React.createElement("button", {
     className: gender === 'female' ? 'active' : '',
@@ -1173,9 +1193,9 @@ function ClientFormSheet({
   }, "Kobieta"), /*#__PURE__*/React.createElement("button", {
     className: gender === 'male' ? 'active' : '',
     onClick: () => setGender('male')
-  }, "Mężczyzna")), /*#__PURE__*/React.createElement("label", {
+  }, "M\u0119\u017Cczyzna")), /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Aktywność fizyczna"), /*#__PURE__*/React.createElement("select", {
+  }, "Aktywno\u015B\u0107 fizyczna"), /*#__PURE__*/React.createElement("select", {
     className: "field-input",
     value: activity,
     onChange: e => setActivity(e.target.value)
@@ -1282,7 +1302,7 @@ function ClientDetailView({
       background: goalObj?.color || 'var(--forest)',
       color: '#fff'
     }
-  }, goalObj?.label, " · ", targetKcal, " kcal")), client.phone && /*#__PURE__*/React.createElement("div", {
+  }, goalObj?.label, " \xB7 ", targetKcal, " kcal")), client.phone && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 8,
       fontSize: 13
@@ -1506,7 +1526,7 @@ function AddProductSheet({
     }, /*#__PURE__*/React.createElement("button", {
       className: "btn-text",
       onClick: () => setSelected(null)
-    }, "← Wróć"), /*#__PURE__*/React.createElement("span", {
+    }, "\u2190 Wr\xF3\u0107"), /*#__PURE__*/React.createElement("span", {
       className: "sheet-title"
     }, selected.name), /*#__PURE__*/React.createElement("button", {
       className: "btn-text btn-primary-text",
@@ -1520,7 +1540,7 @@ function AddProductSheet({
       }
     }, /*#__PURE__*/React.createElement("label", {
       className: "field-label"
-    }, "Ilość (g)"), /*#__PURE__*/React.createElement("input", {
+    }, "Ilo\u015B\u0107 (g)"), /*#__PURE__*/React.createElement("input", {
       className: "field-input",
       type: "number",
       value: grams,
@@ -1546,19 +1566,19 @@ function AddProductSheet({
       className: "nutr-val"
     }, (selected.protein * (parseInt(grams) || 100) / 100).toFixed(1)), /*#__PURE__*/React.createElement("span", {
       className: "nutr-label"
-    }, "białko")), /*#__PURE__*/React.createElement("div", {
+    }, "bia\u0142ko")), /*#__PURE__*/React.createElement("div", {
       className: "nutr-item"
     }, /*#__PURE__*/React.createElement("span", {
       className: "nutr-val"
     }, (selected.carbs * (parseInt(grams) || 100) / 100).toFixed(1)), /*#__PURE__*/React.createElement("span", {
       className: "nutr-label"
-    }, "węgle")), /*#__PURE__*/React.createElement("div", {
+    }, "w\u0119gle")), /*#__PURE__*/React.createElement("div", {
       className: "nutr-item"
     }, /*#__PURE__*/React.createElement("span", {
       className: "nutr-val"
     }, (selected.fat * (parseInt(grams) || 100) / 100).toFixed(1)), /*#__PURE__*/React.createElement("span", {
       className: "nutr-label"
-    }, "tłuszcz"))))));
+    }, "t\u0142uszcz"))))));
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "modal-overlay",
@@ -1605,7 +1625,7 @@ function AddProductSheet({
       fontSize: 12,
       color: 'var(--muted)'
     }
-  }, p.kcal, " kcal · B:", p.protein, " W:", p.carbs, " T:", p.fat)), /*#__PURE__*/React.createElement(Icon2, {
+  }, p.kcal, " kcal \xB7 B:", p.protein, " W:", p.carbs, " T:", p.fat)), /*#__PURE__*/React.createElement(Icon2, {
     name: "chevRight",
     size: 16,
     style: {
@@ -1664,7 +1684,7 @@ function ClientTrainingsTab({
         fontSize: 14,
         fontWeight: 500
       }
-    }, t.date, " · ", t.time || '--:--'), /*#__PURE__*/React.createElement("span", {
+    }, t.date, " \xB7 ", t.time || '--:--'), /*#__PURE__*/React.createElement("span", {
       className: "badge",
       style: {
         background: st.bg,
@@ -1722,7 +1742,7 @@ function ClientTrainingsTab({
       color: 'var(--muted)',
       opacity: 0.3
     }
-  }), /*#__PURE__*/React.createElement("p", null, "Brak treningów")), showForm && /*#__PURE__*/React.createElement(TrainingFormSheet, {
+  }), /*#__PURE__*/React.createElement("p", null, "Brak trening\xF3w")), showForm && /*#__PURE__*/React.createElement(TrainingFormSheet, {
     training: editing,
     clientId: client.id,
     onSave: t => {
@@ -1790,7 +1810,7 @@ function TrainingFormSheet({
     style: {
       color: 'var(--forest)'
     }
-  }), /*#__PURE__*/React.createElement("span", null, "Użyj dyktowania iOS na klawiaturze, aby mówić")), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("span", null, "U\u017Cyj dyktowania iOS na klawiaturze, aby m\xF3wi\u0107")), /*#__PURE__*/React.createElement("div", {
     className: "field-row"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1885,7 +1905,7 @@ function ClientPhotosTab({
   }, /*#__PURE__*/React.createElement(Icon2, {
     name: "camera",
     size: 16
-  }), " Zrób zdjęcie"), /*#__PURE__*/React.createElement("input", {
+  }), " Zr\xF3b zdj\u0119cie"), /*#__PURE__*/React.createElement("input", {
     ref: fileRef,
     type: "file",
     accept: "image/*",
@@ -1915,7 +1935,7 @@ function ClientPhotosTab({
       color: 'var(--muted)',
       opacity: 0.3
     }
-  }), /*#__PURE__*/React.createElement("p", null, "Brak zdjęć. Dodaj pierwsze zdjęcie before/after.")), preview && /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("p", null, "Brak zdj\u0119\u0107. Dodaj pierwsze zdj\u0119cie before/after.")), preview && /*#__PURE__*/React.createElement("div", {
     className: "modal-overlay",
     onClick: () => setPreview(null)
   }, /*#__PURE__*/React.createElement("div", {
@@ -1952,7 +1972,7 @@ function ClientPhotosTab({
   }, /*#__PURE__*/React.createElement(Icon2, {
     name: "trash",
     size: 14
-  }), " Usuń")))), dialog);
+  }), " Usu\u0144")))), dialog);
 }
 
 // ========================================================================
@@ -2016,7 +2036,7 @@ function ClientReportTab({
     className: "stat-val"
   }, stats.completed), /*#__PURE__*/React.createElement("div", {
     className: "stat-lbl"
-  }, "Treningów")), /*#__PURE__*/React.createElement("div", {
+  }, "Trening\xF3w")), /*#__PURE__*/React.createElement("div", {
     className: "stat-box"
   }, /*#__PURE__*/React.createElement("div", {
     className: "stat-val"
@@ -2028,7 +2048,7 @@ function ClientReportTab({
     className: "stat-val"
   }, targetKcal || '-'), /*#__PURE__*/React.createElement("div", {
     className: "stat-lbl"
-  }, "kcal/dzień")))), /*#__PURE__*/React.createElement("button", {
+  }, "kcal/dzie\u0144")))), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-full",
     onClick: generateAndShare,
     disabled: generating
@@ -2042,7 +2062,7 @@ function ClientReportTab({
       textAlign: 'center',
       marginTop: 8
     }
-  }, "WhatsApp · Messenger · SMS · E-mail"));
+  }, "WhatsApp \xB7 Messenger \xB7 SMS \xB7 E-mail"));
 }
 
 // ========================================================================
@@ -2132,7 +2152,7 @@ function CalendarView({
     style: {
       color: voiceMode ? 'var(--primary)' : 'var(--muted)'
     }
-  }), /*#__PURE__*/React.createElement("span", null, "Dodaj głosowo")), voiceMode && /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("span", null, "Dodaj g\u0142osowo")), voiceMode && /*#__PURE__*/React.createElement("div", {
     className: "card voice-input-card"
   }, /*#__PURE__*/React.createElement("p", {
     style: {
@@ -2140,7 +2160,7 @@ function CalendarView({
       color: 'var(--muted)',
       margin: '0 0 8px'
     }
-  }, "Przykład: \"Trening z Anną jutro o 15:00\""), /*#__PURE__*/React.createElement("textarea", {
+  }, "Przyk\u0142ad: \"Trening z Ann\u0105 jutro o 15:00\""), /*#__PURE__*/React.createElement("textarea", {
     className: "field-input",
     rows: 2,
     value: voiceText,
@@ -2245,7 +2265,7 @@ function CalendarView({
         fontSize: 12,
         color: 'var(--muted)'
       }
-    }, t.time || '--:--', " · ", /*#__PURE__*/React.createElement("span", {
+    }, t.time || '--:--', " \xB7 ", /*#__PURE__*/React.createElement("span", {
       style: {
         color: st.color
       }
@@ -2279,7 +2299,7 @@ function CalendarView({
       fontSize: 13,
       color: 'var(--muted)'
     }
-  }, "Brak treningów w tym dniu")), showForm && /*#__PURE__*/React.createElement(CalendarTrainingForm, {
+  }, "Brak trening\xF3w w tym dniu")), showForm && /*#__PURE__*/React.createElement(CalendarTrainingForm, {
     clients: clients,
     defaultDate: selectedDate || toDateStr(),
     onSave: t => {
@@ -2507,7 +2527,7 @@ function FinancesView({
       fontSize: 12,
       color: 'var(--muted)'
     }
-  }, f.date, " · ", f.category)), /*#__PURE__*/React.createElement("div", {
+  }, f.date, " \xB7 ", f.category)), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -2588,7 +2608,7 @@ function FinanceFormSheet({
     className: "sheet-body"
   }, /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Kwota (zł)"), /*#__PURE__*/React.createElement("input", {
+  }, "Kwota (z\u0142)"), /*#__PURE__*/React.createElement("input", {
     className: "field-input",
     type: "number",
     step: "0.01",
@@ -2700,7 +2720,7 @@ function DashboardView({
     }
   }, formatMoney(monthRevenue)), /*#__PURE__*/React.createElement("div", {
     className: "kpi-label"
-  }, "Przychód")), /*#__PURE__*/React.createElement("div", {
+  }, "Przych\xF3d")), /*#__PURE__*/React.createElement("div", {
     className: "kpi-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "kpi-val",
@@ -2720,7 +2740,7 @@ function DashboardView({
       fontWeight: 600,
       margin: '0 0 12px'
     }
-  }, "Przychody — 6 miesięcy"), /*#__PURE__*/React.createElement("div", {
+  }, "Przychody \u2014 6 miesi\u0119cy"), /*#__PURE__*/React.createElement("div", {
     className: "mini-chart"
   }, revenueChart.map((m, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
@@ -2747,7 +2767,7 @@ function DashboardView({
       fontWeight: 600,
       margin: '0 0 8px'
     }
-  }, "Bilans miesiąca"), /*#__PURE__*/React.createElement("div", {
+  }, "Bilans miesi\u0105ca"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2792,7 +2812,7 @@ function DashboardView({
       fontWeight: 600,
       margin: '0 0 8px'
     }
-  }, "Najbliższe treningi"), upcoming.map(t => /*#__PURE__*/React.createElement("div", {
+  }, "Najbli\u017Csze treningi"), upcoming.map(t => /*#__PURE__*/React.createElement("div", {
     key: t.id,
     style: {
       display: 'flex',
@@ -2840,7 +2860,7 @@ function BillingView({
   }, /*#__PURE__*/React.createElement(PageHeader, {
     title: "Rozliczenia",
     onBack: onBack,
-    backLabel: "Więcej",
+    backLabel: "Wi\u0119cej",
     action: "Dodaj",
     onAction: () => setShowForm(true)
   }), sorted.map(cp => {
@@ -2900,7 +2920,7 @@ function BillingView({
         fontSize: 11,
         color: 'var(--muted)'
       }
-    }, /*#__PURE__*/React.createElement("span", null, used, "/", total, " sesji"), /*#__PURE__*/React.createElement("span", null, cp.startDate, " — ", cp.endDate || '?')), cp.paid && /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", null, used, "/", total, " sesji"), /*#__PURE__*/React.createElement("span", null, cp.startDate, " \u2014 ", cp.endDate || '?')), cp.paid && /*#__PURE__*/React.createElement("span", {
       className: "badge",
       style: {
         marginTop: 6,
@@ -2908,10 +2928,10 @@ function BillingView({
         color: '#fff',
         fontSize: 10
       }
-    }, "Opłacony"));
+    }, "Op\u0142acony"));
   }), sorted.length === 0 && /*#__PURE__*/React.createElement("div", {
     className: "empty-state"
-  }, /*#__PURE__*/React.createElement("p", null, "Brak pakietów klientów")), showForm && /*#__PURE__*/React.createElement(BillingFormSheet, {
+  }, /*#__PURE__*/React.createElement("p", null, "Brak pakiet\xF3w klient\xF3w")), showForm && /*#__PURE__*/React.createElement(BillingFormSheet, {
     clients: clients,
     packages: packages,
     onSave: cp => {
@@ -2985,9 +3005,9 @@ function BillingFormSheet({
   }, packages.map(p => /*#__PURE__*/React.createElement("option", {
     key: p.id,
     value: p.id
-  }, p.name, " — ", formatMoney(p.price)))), /*#__PURE__*/React.createElement("label", {
+  }, p.name, " \u2014 ", formatMoney(p.price)))), /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Data rozpoczęcia"), /*#__PURE__*/React.createElement("input", {
+  }, "Data rozpocz\u0119cia"), /*#__PURE__*/React.createElement("input", {
     className: "field-input",
     type: "date",
     value: startDate,
@@ -2998,7 +3018,7 @@ function BillingFormSheet({
       color: 'var(--muted)',
       marginTop: 4
     }
-  }, "Ważny do: ", endDate), /*#__PURE__*/React.createElement("label", {
+  }, "Wa\u017Cny do: ", endDate), /*#__PURE__*/React.createElement("label", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -3011,7 +3031,7 @@ function BillingFormSheet({
     type: "checkbox",
     checked: paid,
     onChange: e => setPaid(e.target.checked)
-  }), "Opłacony"))));
+  }), "Op\u0142acony"))));
 }
 
 // ========================================================================
@@ -3034,7 +3054,7 @@ function PackagesView({
   }, /*#__PURE__*/React.createElement(PageHeader, {
     title: "Pakiety",
     onBack: onBack,
-    backLabel: "Więcej",
+    backLabel: "Wi\u0119cej",
     action: "Dodaj",
     onAction: () => {
       setEditing(null);
@@ -3066,7 +3086,7 @@ function PackagesView({
       fontSize: 12,
       color: 'var(--muted)'
     }
-  }, pkg.sessions, " sesji · ", pkg.validDays, " dni · ", formatMoney(pkg.price))), /*#__PURE__*/React.createElement("div", {
+  }, pkg.sessions, " sesji \xB7 ", pkg.validDays, " dni \xB7 ", formatMoney(pkg.price))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 6
@@ -3169,7 +3189,7 @@ function PackageFormSheet({
     }
   }, /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Cena (zł)"), /*#__PURE__*/React.createElement("input", {
+  }, "Cena (z\u0142)"), /*#__PURE__*/React.createElement("input", {
     className: "field-input",
     type: "number",
     value: price,
@@ -3180,7 +3200,7 @@ function PackageFormSheet({
     }
   }, /*#__PURE__*/React.createElement("label", {
     className: "field-label"
-  }, "Dni ważności"), /*#__PURE__*/React.createElement("input", {
+  }, "Dni wa\u017Cno\u015Bci"), /*#__PURE__*/React.createElement("input", {
     className: "field-input",
     type: "number",
     value: validDays,
@@ -3261,7 +3281,7 @@ function BackupView({
   }, /*#__PURE__*/React.createElement(PageHeader, {
     title: "Backup",
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
@@ -3299,7 +3319,7 @@ function BackupView({
       color: 'var(--muted)',
       margin: '0 0 12px'
     }
-  }, "Zaimportuj dane z pliku backupu. Istniejące dane zostaną uzupełnione."), /*#__PURE__*/React.createElement("button", {
+  }, "Zaimportuj dane z pliku backupu. Istniej\u0105ce dane zostan\u0105 uzupe\u0142nione."), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-full btn-ghost",
     onClick: () => fileRef.current?.click()
   }, /*#__PURE__*/React.createElement(Icon2, {
@@ -3326,7 +3346,7 @@ function BackupView({
       fontSize: 12,
       color: 'var(--muted)'
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "Statystyki:"), /*#__PURE__*/React.createElement("br", null), "Klienci: ", clients.length, " · Treningi: ", trainings.length, " · Finanse: ", finances.length, /*#__PURE__*/React.createElement("br", null), "Pakiety: ", packages.length, " · Szablony: ", templates.length, " · Produkty: ", products.length));
+  }, /*#__PURE__*/React.createElement("strong", null, "Statystyki:"), /*#__PURE__*/React.createElement("br", null), "Klienci: ", clients.length, " \xB7 Treningi: ", trainings.length, " \xB7 Finanse: ", finances.length, /*#__PURE__*/React.createElement("br", null), "Pakiety: ", packages.length, " \xB7 Szablony: ", templates.length, " \xB7 Produkty: ", products.length));
 }
 
 // ========================================================================
@@ -3340,7 +3360,7 @@ function AboutView({
   }, /*#__PURE__*/React.createElement(PageHeader, {
     title: "O aplikacji",
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'center',
@@ -3351,7 +3371,7 @@ function AboutView({
       fontSize: 48,
       marginBottom: 8
     }
-  }, "🏋️‍♀️"), /*#__PURE__*/React.createElement("h2", {
+  }, "\uD83C\uDFCB\uFE0F\u200D\u2640\uFE0F"), /*#__PURE__*/React.createElement("h2", {
     className: "app-title",
     style: {
       margin: '0 0 4px'
@@ -3362,7 +3382,7 @@ function AboutView({
       color: 'var(--muted)',
       margin: '0 0 16px'
     }
-  }, "Małgorzata Truszkowska · Łomża"), /*#__PURE__*/React.createElement("p", {
+  }, "Ma\u0142gorzata Truszkowska \xB7 \u0141om\u017Ca"), /*#__PURE__*/React.createElement("p", {
     style: {
       fontSize: 14,
       lineHeight: 1.6,
@@ -3370,13 +3390,13 @@ function AboutView({
       margin: '0 auto',
       color: 'var(--text-secondary)'
     }
-  }, "Kompletne narzędzie do zarządzania treningami personalnymi, dietami, finansami i klientami."), /*#__PURE__*/React.createElement("div", {
+  }, "Kompletne narz\u0119dzie do zarz\u0105dzania treningami personalnymi, dietami, finansami i klientami."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 24,
       fontSize: 11,
       color: 'var(--muted)'
     }
-  }, "PWA v2.0 · Zoptymalizowana pod iPhone")));
+  }, "PWA v2.0 \xB7 Zoptymalizowana pod iPhone")));
 }
 
 // ========================================================================
@@ -3405,10 +3425,10 @@ function ProductsView({
   return /*#__PURE__*/React.createElement("div", {
     className: "page-content"
   }, /*#__PURE__*/React.createElement(PageHeader, {
-    title: "Baza produktów",
+    title: "Baza produkt\xF3w",
     subtitle: `${products.length} produktów`,
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), /*#__PURE__*/React.createElement("div", {
     className: "search-bar"
   }, /*#__PURE__*/React.createElement(Icon2, {
@@ -3458,7 +3478,7 @@ function ProductsView({
       color: 'var(--muted)',
       whiteSpace: 'nowrap'
     }
-  }, p.kcal, "kcal · B:", p.protein, " W:", p.carbs, " T:", p.fat)))));
+  }, p.kcal, "kcal \xB7 B:", p.protein, " W:", p.carbs, " T:", p.fat)))));
 }
 
 // ========================================================================
@@ -3480,7 +3500,7 @@ function TemplatesView({
     title: "Szablony diet",
     subtitle: `${templates.length} szablonów`,
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), templates.map(tpl => /*#__PURE__*/React.createElement("div", {
     key: tpl.id,
     className: "card",
@@ -3516,7 +3536,7 @@ function TemplatesView({
     }
   }))))), templates.length === 0 && /*#__PURE__*/React.createElement("div", {
     className: "empty-state"
-  }, /*#__PURE__*/React.createElement("p", null, "Brak szablonów diet")), dialog);
+  }, /*#__PURE__*/React.createElement("p", null, "Brak szablon\xF3w diet")), dialog);
 }
 
 // ========================================================================
@@ -3534,7 +3554,7 @@ function RecipesView({
     title: "Przepisy",
     subtitle: `${(recipes || []).length} przepisów`,
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), (recipes || []).map((r, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: "card",
@@ -3565,7 +3585,7 @@ function RecipesView({
     style: {
       marginBottom: 8
     }
-  }, /*#__PURE__*/React.createElement("strong", null, "Składniki:"), /*#__PURE__*/React.createElement("ul", {
+  }, /*#__PURE__*/React.createElement("strong", null, "Sk\u0142adniki:"), /*#__PURE__*/React.createElement("ul", {
     style: {
       margin: '4px 0',
       paddingLeft: 20
@@ -3574,10 +3594,10 @@ function RecipesView({
     const prod = products.find(p => p.id === ing.productId);
     return /*#__PURE__*/React.createElement("li", {
       key: j
-    }, prod?.name || '?', " — ", ing.grams, "g");
+    }, prod?.name || '?', " \u2014 ", ing.grams, "g");
   }))), r.instructions && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Przygotowanie:"), /*#__PURE__*/React.createElement("br", null), r.instructions)))), (recipes || []).length === 0 && /*#__PURE__*/React.createElement("div", {
     className: "empty-state"
-  }, /*#__PURE__*/React.createElement("p", null, "Brak przepisów")));
+  }, /*#__PURE__*/React.createElement("p", null, "Brak przepis\xF3w")));
 }
 
 // ========================================================================
@@ -3612,14 +3632,14 @@ function PhotosGalleryView({
       textAlign: 'center',
       color: 'var(--muted)'
     }
-  }, "Ładowanie..."));
+  }, "\u0141adowanie..."));
   return /*#__PURE__*/React.createElement("div", {
     className: "page-content"
   }, /*#__PURE__*/React.createElement(PageHeader, {
-    title: "Galeria zdjęć",
+    title: "Galeria zdj\u0119\u0107",
     subtitle: `${photos.length} zdjęć`,
     onBack: onBack,
-    backLabel: "Więcej"
+    backLabel: "Wi\u0119cej"
   }), grouped.map(([name, pics]) => /*#__PURE__*/React.createElement("div", {
     key: name,
     style: {
@@ -3644,7 +3664,7 @@ function PhotosGalleryView({
     className: "photo-date"
   }, p.date)))))), photos.length === 0 && /*#__PURE__*/React.createElement("div", {
     className: "empty-state"
-  }, /*#__PURE__*/React.createElement("p", null, "Brak zdjęć. Dodaj zdjęcia z poziomu profilu klienta.")));
+  }, /*#__PURE__*/React.createElement("p", null, "Brak zdj\u0119\u0107. Dodaj zdj\u0119cia z poziomu profilu klienta.")));
 }
 
 // ========================================================================
@@ -4033,11 +4053,22 @@ function StudioTreneraApp() {
         color: 'var(--muted)',
         fontStyle: 'italic'
       }
-    }, "Wczytywanie…")));
+    }, "Wczytywanie\u2026")));
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "app-root"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, !storage.isAvailable && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#c65d3e',
+      color: '#fff',
+      padding: '10px 16px',
+      fontSize: 13,
+      textAlign: 'center',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000
+    }
+  }, "\u26A0\uFE0F Tryb prywatny \u2014 dane nie b\u0119d\u0105 zapisane po zamkni\u0119ciu przegl\u0105darki. Wy\u0142\u0105cz tryb prywatny lub dodaj aplikacj\u0119 na ekran g\u0142\xF3wny."), /*#__PURE__*/React.createElement("div", {
     className: "main-content"
   }, selectedClient ? /*#__PURE__*/React.createElement(ClientDetailView, {
     client: selectedClient,
